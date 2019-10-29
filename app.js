@@ -24,10 +24,10 @@ class UI {
         <td>${patient.room}</td>
         <td>${patient.gest}</td>
         <td>${patient.notes}</td>
-        <td><a href="#" class='btn btn-sml 
-        update'>✅</td>
         <td><a href="#" class='btn btn-med 
         delete'>❌</td>
+        <td><a href="#" class='btn btn-sml 
+        update'>✅</td> 
         `
     list.appendChild(row)
   }
@@ -75,9 +75,9 @@ class Store {
     localStorage.setItem('patients', JSON.stringify(patients))
   }
 
-  static getPatientDetails (patients) {
-    const getDetails = Store.getpatients()
-    localStorage.getItem('patients', JSON.parse(getDetails))
+  static getpatientDetails () {
+    const searchDetails = Store.getpatients()
+    JSON.parse(localStorage.getItem(searchDetails))
   }
 
   static removepatient (room) {
@@ -92,7 +92,6 @@ class Store {
 }
 // Event: Display patients
 document.addEventListener('DOMContentLoaded', UI.displaypatients)
-
 // Event: Add a patient
 document.querySelector('#patient-form').addEventListener('submit', (e) => {
   e.preventDefault()
@@ -126,7 +125,6 @@ document.querySelector('#patient-form').addEventListener('submit', (e) => {
 document.querySelector('#patient-list').addEventListener('click', (e) => {
   // Remove patient from list
   UI.deletepatient(e.target)
-
   // Remove patient from store
   Store.removepatient(e.target.parentElement.previousElementSibling.textContent)
   // Show alert patient deleted
