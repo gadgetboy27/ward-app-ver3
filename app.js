@@ -130,3 +130,12 @@ document.querySelector('#patient-list').addEventListener('click', (e) => {
   // Show alert patient deleted
   UI.showAlert('patient deleted', 'success')
 })
+// Event: Remove a patient
+document.querySelector('#patient-list').addEventListener('click', (e) => {
+  // Remove patient from list
+  UI.deletepatient(e.target)
+  // Remove patient from store
+  Store.removepatient(e.target.parentElement.previousElementSibling.textContent)
+  // Show alert patient deleted
+  UI.showAlert('patient deleted', 'success')
+})
