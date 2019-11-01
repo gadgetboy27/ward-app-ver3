@@ -16,6 +16,7 @@ class UI {
   }
   static addpatientToList (patient) {
     const list = document.querySelector('#patient-list')
+    const add = document.querySelector('#patient-list')
 
     const row = document.createElement('tr')
 
@@ -30,6 +31,7 @@ class UI {
         update'>✅</td> 
         `
     list.appendChild(row)
+    add.appendChild(row)
   }
 
   static deletepatient (el) {
@@ -76,8 +78,11 @@ class Store {
   }
 
   static getpatientDetails () {
-    const searchDetails = Store.getpatients()
-    JSON.parse(localStorage.getItem(searchDetails))
+    const list = JSON.parse(localStorage.getItem('patients'))
+    if (list) {
+      document.getElementById('list').value = list
+    // console.log(list)
+    }
   }
 
   static removepatient (room) {
@@ -130,12 +135,14 @@ document.querySelector('#patient-list').addEventListener('click', (e) => {
   // Show alert patient deleted
   UI.showAlert('patient deleted', 'success')
 })
-// Event: Remove a patient
-document.querySelector('#patient-list').addEventListener('click', (e) => {
+
+document.addEventListener('DOMContentLoaded', UI.displaypatients)
+
+document.querySelector('#patient-list').addEventListener('click', (el) => {
   // Remove patient from list
-  UI.deletepatient(e.target)
+  UI.addpatientToList(el.target)
   // Remove patient from store
-  Store.removepatient(e.target.parentElement.previousElementSibling.textContent)
+  Store.addpatient(el.target.parentElement.previousElementSibling.textContent)
   // Show alert patient deleted
-  UI.showAlert('patient deleted', 'success')
+  UI.showAlert('patient added', 'success')
 })
