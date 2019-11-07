@@ -61,7 +61,7 @@ class UI {
 }
 // Store Class: Handles Storage
 class Store {
-  static getpatients () {
+  static getpatients (ev) {
     let patients
     if (localStorage.getItem('patients') === null) {
       patients = []
@@ -77,12 +77,9 @@ class Store {
     localStorage.setItem('patients', JSON.stringify(patients))
   }
 
-  static getpatientDetails () {
-    const list = JSON.parse(localStorage.getItem('patients'))
-    if (list) {
-      document.getElementById('list').value = list
-    // console.log(list)
-    }
+  static getPatientDetails (list) {
+    list = JSON.parse(localStorage.getItem('patients'))
+    list.appendChild('#patient-list')
   }
 
   static removepatient (room) {
@@ -138,11 +135,7 @@ document.querySelector('#patient-list').addEventListener('click', (e) => {
 
 document.addEventListener('DOMContentLoaded', UI.displaypatients)
 
-document.querySelector('#patient-list').addEventListener('click', (el) => {
-  // Remove patient from list
-  UI.addpatientToList(el.target)
-  // Remove patient from store
-  Store.addpatient(el.target.parentElement.previousElementSibling.textContent)
-  // Show alert patient deleted
-  UI.showAlert('patient added', 'success')
+document.querySelector('#list').addEventListener('click', (ev) => {
+  // Add patient to DOM list
+  UI.addPatientToList(ev.target)
 })
