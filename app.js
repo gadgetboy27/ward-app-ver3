@@ -1,9 +1,9 @@
 // patient class: Represents a book
 class Patient {
-  constructor (name, room, gest, notes) {
+  constructor (name, location, id, notes) {
+    this.id = id
     this.name = name
-    this.room = room
-    this.gest = gest
+    this.location = location
     this.notes = notes
   }
 }
@@ -21,14 +21,12 @@ class UI {
     const row = document.createElement('tr')
 
     row.innerHTML = `
+        <td>${patient.id}</td>
         <td>${patient.name}</td>
-        <td>${patient.room}</td>
-        <td>${patient.gest}</td>
+        <td>${patient.location}</td>
         <td>${patient.notes}</td>
         <td><a href="#" class='btn btn-med 
         delete'>❌</td>
-        <td><a href="#" class='btn btn-sml 
-        update'>✅</td> 
         `
     list.appendChild(row)
     add.appendChild(row)
@@ -54,8 +52,8 @@ class UI {
 
   static clearFields () {
     document.querySelector('#name').value = ''
-    document.querySelector('#room').value = ''
-    document.querySelector('#gest').value = ''
+    document.querySelector('#location').value = ''
+    document.querySelector('#id').value = ''
     document.querySelector('#notes').value = ''
   }
 }
@@ -82,11 +80,11 @@ class Store {
     list.appendChild('#patient-list')
   }
 
-  static removepatient (room) {
+  static removepatient (location) {
     const patients = Store.getpatients()
-    patients.forEach((patient, room) => {
-      if (patient.room === room) {
-        patients.splice(room, 1)
+    patients.forEach((patient, location) => {
+      if (patient.location === location) {
+        patients.splice(location, 1)
       }
     })
     localStorage.setItem('patients', JSON.stringify(patients))
@@ -99,16 +97,16 @@ document.querySelector('#patient-form').addEventListener('submit', (e) => {
   e.preventDefault()
   // Get the values of new patient to Add to list
   const name = document.querySelector('#name').value
-  const room = document.querySelector('#room').value
-  const gest = document.querySelector('#gest').value
+  const location = document.querySelector('#location').value
+  const id = document.querySelector('#id').value
   const notes = document.querySelector('#notes').value
   // Validate all fields
-  if (name === '' || room === '' || gest === '') {
+  if (name === '' || location === '' || id === '' ) {
     // Insert patient alert
     UI.showAlert('You havn\'t filled in all fields', 'danger')
   } else {
     // Instatiate patient
-    const patient = new Patient(name, room, gest, notes)
+    const patient = new Patient(name, location, id, notes)
 
     // Adds new patient to UI
     UI.addpatientToList(patient)
@@ -131,11 +129,4 @@ document.querySelector('#patient-list').addEventListener('click', (e) => {
   Store.removepatient(e.target.parentElement.previousElementSibling.textContent)
   // Show alert patient deleted
   UI.showAlert('patient deleted', 'success')
-})
-
-document.addEventListener('DOMContentLoaded', UI.displaypatients)
-
-document.querySelector('#list').addEventListener('click', (ev) => {
-  // Add patient to DOM list
-  UI.addPatientToList(ev.target)
 })
