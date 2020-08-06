@@ -80,11 +80,11 @@ class Store {
     list.appendChild('#patient-list')
   }
 
-  static removepatient (location) {
+  static removepatient (id) {
     const patients = Store.getpatients()
-    patients.forEach((patient, location) => {
-      if (patient.location === location) {
-        patients.splice(location, 1)
+    patients.forEach((patient, index) => {
+      if (patient.id === id) {
+        patients.splice(index, 1)
       }
     })
     localStorage.setItem('patients', JSON.stringify(patients))
